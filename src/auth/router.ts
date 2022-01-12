@@ -4,9 +4,9 @@ import * as authController from './controller';
 
 const router = express.Router();
 
-router.post('/signup', authController.signup);
+router.post('/sign_up', authController.signUp);
 
-router.post('/login', authController.login);
+router.post('/sign_in', authController.signIn);
 
 router.get('/me', isAuth, authController.me);
 

@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
-import { Request, Response } from 'express';
+import { Request } from 'custom_type';
+import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import * as userRepository from './data';
 
@@ -8,7 +9,7 @@ const jwtSecretKey = 'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z';
 const jwtExpiresInDays = '2d';
 const bcryptSaltRounds = 12;
 
-export async function signup(req: Request, res: Response) {
+export async function signUp(req: Request, res: Response) {
   const { username, password, name, email, url } = req.body;
   const found = await userRepository.findByUsername(username);
   if (found) {
@@ -26,7 +27,7 @@ export async function signup(req: Request, res: Response) {
   res.status(201).json({ token, username });
 }
 
-export async function login(req: Request, res: Response) {
+export async function signIn(req: Request, res: Response) {
   const { username, password } = req.body;
   const user = await userRepository.findByUsername(username);
   if (!user) {
@@ -45,8 +46,14 @@ function createJwtToken(id: string) {
 }
 
 export async function me(req: Request, res: Response) {
-  const { userId, token } = req.body;
-  const user = await userRepository.findById(userId);
+  const { userId, token } = req;
+
+  /*if (!token) {
+    return res.status(404).json({ message: 'User not found' });
+    // need to log in
+  }*/
+
+  const user = await userRepository.findById(userId!);
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
   }
