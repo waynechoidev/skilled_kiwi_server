@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { Request } from 'custom_type';
+import { Request } from 'common/custom_type';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import * as userRepository from './data';

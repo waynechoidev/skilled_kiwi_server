@@ -1,7 +1,7 @@
-import { Request } from 'custom_type';
+import { Request } from 'common/custom_type';
 import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import * as userRepository from '../auth/data';
+import * as userRepository from '../../auth/data';
 
 const AUTH_ERROR = { message: 'Authentication Error' };
 

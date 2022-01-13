@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { NextFunction, Request, Response } from 'express';
+import { db } from './common/db/mysql';
 import jobsRouter from './jobs/router';
 
 const app = express();
@@ -22,6 +23,10 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(error);
   res.sendStatus(500);
 });
+
+db.getConnection()
+  .then((c) => console.log(c))
+  .catch((e) => console.error(e));
 
 app.listen(port, () => {
   console.log(`server is on with port ${port}!`);
