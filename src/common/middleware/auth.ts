@@ -1,5 +1,4 @@
-import { Request } from 'common/custom_type';
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import * as userRepository from '../../auth/data';
 
@@ -21,7 +20,9 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
     if (!user) {
       return res.status(401).json(AUTH_ERROR);
     }
-    req.userId = user.id; // req.customData
+    res.locals.userId = user.id;
+    res.locals.token = token;
+
     next();
   });
 };

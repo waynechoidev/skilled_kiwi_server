@@ -8,7 +8,7 @@ export async function getJobs(req: Request, res: Response) {
 }
 
 export async function getJob(req: Request, res: Response) {
-  const id = req.params.id;
+  const id: string = req.params.id;
   const job = await jobRepository.getById(id);
   if (job) {
     res.status(200).json(job);
@@ -18,14 +18,15 @@ export async function getJob(req: Request, res: Response) {
 }
 
 export async function createJob(req: Request, res: Response) {
-  const { text, name, username } = req.body;
-  const job = await jobRepository.create(text, name, username);
+  const text = req.body.text;
+  const userId: string = res.locals.userId;
+  const job: string = await jobRepository.create(text, userId);
   res.status(201).json(job);
 }
 
 export async function updateJob(req: Request, res: Response) {
-  const id = req.params.id;
-  const text = req.body.text;
+  const id: string = req.params.id;
+  const text: string = req.body.text;
   const job = await jobRepository.update(id, text);
   if (job) {
     res.status(200).json(job);

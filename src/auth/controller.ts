@@ -1,6 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { Request } from 'common/custom_type';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import * as userRepository from './data';
 
@@ -46,14 +45,9 @@ function createJwtToken(id: string) {
 }
 
 export async function me(req: Request, res: Response) {
-  const { userId, token } = req;
+  const { userId, token } = res.locals;
 
-  /*if (!token) {
-    return res.status(404).json({ message: 'User not found' });
-    // need to log in
-  }*/
-
-  const user = await userRepository.findById(userId!);
+  const user = await userRepository.findById(userId);
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
   }
