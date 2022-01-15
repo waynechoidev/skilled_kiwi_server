@@ -5,7 +5,7 @@ import { db } from './common/db/mysql';
 import jobsRouter from './jobs/router';
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 //test
 app.use(express.json());
