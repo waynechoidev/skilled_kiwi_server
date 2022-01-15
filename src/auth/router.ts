@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import { isAuth } from '../common/middleware/auth';
 import * as authController from './controller';
 

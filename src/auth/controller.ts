@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { Request } from 'common/custom_type';
 import { Response } from 'express';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import * as userRepository from './data';
 
 // TODO: Make it secure!
@@ -16,7 +16,7 @@ export async function signUp(req: Request, res: Response) {
     return res.status(409).json({ message: `${username} already exists` });
   }
   const hashed = await bcrypt.hash(password, bcryptSaltRounds);
-  const userId = await userRepository.createUser({
+  const userId: string = await userRepository.createUser({
     username,
     password: hashed,
     name,

@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { NextFunction, Request, Response } from 'express';
+import authRouter from './auth/router';
 import { db } from './common/db/mysql';
 import jobsRouter from './jobs/router';
 
@@ -14,6 +15,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/jobs', jobsRouter);
+app.use('/auth', authRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.sendStatus(404);

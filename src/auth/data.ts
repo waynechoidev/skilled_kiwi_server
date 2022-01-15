@@ -1,3 +1,4 @@
+import { db } from './../common/db/mysql';
 export interface User {
   username: string;
   password: string;
@@ -27,7 +28,14 @@ export async function findById(id: string) {
 }
 
 export async function createUser(user: User) {
-  const created = { ...user, id: Date.now().toString() };
-  users.push(created);
-  return created.id;
+  const { username, password, name, email, url } = user;
+  return db
+    .execute('INSERT INTO users(username, password, name, email, url) VALUES (?,?,?,?,?)', [
+      username,
+      password,
+      name,
+      email,
+      url,
+    ])
+    .then((result: any[]) => result[0].insertId);
 }
