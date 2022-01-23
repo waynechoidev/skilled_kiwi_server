@@ -1,3 +1,4 @@
+import * as cors from 'cors';
 import * as express from 'express';
 import { NextFunction, Request, Response } from 'express';
 import authRouter from './auth/router';
@@ -9,7 +10,7 @@ const port = 8080;
 
 //test
 app.use(express.json());
-
+app.use(cors());
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
