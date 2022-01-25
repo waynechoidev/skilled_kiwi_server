@@ -10,7 +10,8 @@
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc-watch --onSuccess \"node dist/app.js\""
+    "dev": "tsc-watch --onSuccess \"node dist/app.js\"",
+    "db": "sudo /etc/init.d/mysql start"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

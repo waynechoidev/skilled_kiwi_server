@@ -11,17 +11,19 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
   }
 
   const token = authHeader.split(' ')[1];
+
   // TODO: Make it secure!
   jwt.verify(token, 'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z', async (error, decoded) => {
     if (error) {
-      return res.status(401).json(AUTH_ERROR);
+      return res.status(401).json(error);
     }
+
     const user = await userRepository.findById(decoded!.id);
     if (!user) {
-      return res.status(401).json(AUTH_ERROR);
+      return res.status(401).json({ message: 'Cannot find user.' });
     }
+
     res.locals.userId = user.id;
-    res.locals.token = token;
 
     next();
   });

@@ -1,4 +1,6 @@
 import { db } from './../common/db/mysql';
+
+const tokenDb: any = {};
 export interface User {
   username: string;
   password: string;
@@ -30,4 +32,12 @@ export async function createUser(user: User) {
       url,
     ])
     .then((result: any[]) => result[0].insertId);
+}
+
+export async function checkRefreshToken(token: String) {
+  if (tokenDb.token) {
+    return true;
+  } else {
+    return false;
+  }
 }
