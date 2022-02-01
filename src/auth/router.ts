@@ -10,4 +10,6 @@ router.post('/sign_in', authController.signIn);
 
 router.get('/me', isAuth, authController.me);
 
+router.get('/check_username/:username', authController.checkUsername);
+
 export default router;

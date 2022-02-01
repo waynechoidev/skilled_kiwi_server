@@ -77,6 +77,16 @@ export async function me(req: Request, res: Response) {
   res.status(200).json({ username: user.username });
 }
 
+export async function checkUsername(req: Request, res: Response) {
+  const username: string = req.params.username;
+  const user: userRepository.User = await userRepository.findByUsername(username);
+  if (user?.username) {
+    return res.json({ isValid: false });
+  } else {
+    return res.json({ isValid: true });
+  }
+}
+
 function createTokens(userId: string) {
   const refresh_token = jwt.sign({ userId }, refreshTokenSecretKey, {
     expiresIn: refreshTokenExpires,
