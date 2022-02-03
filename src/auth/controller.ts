@@ -11,18 +11,37 @@ const accessTokenExpires = 7200;
 const bcryptSaltRounds = 12;
 
 export async function signUp(req: Request, res: Response) {
-  const { username, password, name, email, url } = req.body;
+  const {
+    username,
+    password,
+    email,
+    firstName,
+    lastName,
+    gender,
+    birthday,
+    phoneNumberPrefix,
+    phoneNumber,
+    district,
+    suburb,
+  } = req.body;
   const found = await userRepository.findByUsername(username);
   if (found) {
     return res.status(409).json({ message: `${username} already exists` });
   }
+
   const hashed = await bcrypt.hash(password, bcryptSaltRounds);
   const userId: string = await userRepository.createUser({
     username,
     password: hashed,
-    name,
     email,
-    url,
+    firstName,
+    lastName,
+    gender,
+    birthday,
+    phoneNumberPrefix,
+    phoneNumber,
+    district,
+    suburb,
   });
   const { refresh_token, access_token } = createTokens(userId);
   res
