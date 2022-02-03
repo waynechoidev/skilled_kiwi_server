@@ -106,6 +106,16 @@ export async function checkUsername(req: Request, res: Response) {
   }
 }
 
+export async function checkEmail(req: Request, res: Response) {
+  const email: string = req.params.email;
+  const user: userRepository.User = await userRepository.findByEmail(email);
+  if (user?.email) {
+    return res.json({ isValid: false });
+  } else {
+    return res.json({ isValid: true });
+  }
+}
+
 function createTokens(userId: string) {
   const refresh_token = jwt.sign({ userId }, refreshTokenSecretKey, {
     expiresIn: refreshTokenExpires,

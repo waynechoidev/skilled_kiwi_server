@@ -21,6 +21,12 @@ export async function findByUsername(username: string) {
     .then((result: any[]) => result[0][0]);
 }
 
+export async function findByEmail(email: string) {
+  return db
+    .execute('SELECT * FROM users WHERE email=?', [email]) //
+    .then((result: any[]) => result[0][0]);
+}
+
 export async function findById(id: string) {
   return db
     .execute('SELECT * FROM users WHERE id=?', [id]) //

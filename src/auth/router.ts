@@ -40,4 +40,6 @@ router.get('/me', isAuth, authController.me);
 
 router.get('/check_username/:username', authController.checkUsername);
 
+router.get('/check_email/:email', authController.checkEmail);
+
 export default router;
