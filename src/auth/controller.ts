@@ -30,7 +30,7 @@ export async function signUp(req: Request, res: Response) {
   }
 
   const hashed = await bcrypt.hash(password, bcryptSaltRounds);
-  const userId: string = await userRepository.createUser({
+  await userRepository.createUser({
     username,
     password: hashed,
     email,
@@ -43,10 +43,7 @@ export async function signUp(req: Request, res: Response) {
     district,
     suburb,
   });
-  const { refresh_token, access_token } = createTokens(userId);
-  res
-    .status(201)
-    .json({ user_id: userId, refresh_token, access_token, expires_in: accessTokenExpires });
+  return res.status(201).json({ message: `Success to make user for ${username}` });
 }
 
 export async function signIn(req: Request, res: Response) {
