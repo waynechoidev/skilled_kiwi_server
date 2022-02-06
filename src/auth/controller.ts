@@ -57,30 +57,20 @@ export async function signIn(req: Request, res: Response) {
   if (!isValidPassword) {
     return res.status(401).json({ message: 'Invalid Username or Password' });
   }
-  const { refresh_token, access_token } = createTokens(userId);
-  res
-    .status(201)
-    .json({ user_id: userId, refresh_token, access_token, expires_in: accessTokenExpires });
+  const { refreshToken, accessToken } = createTokens(userId);
+  res.status(201).json({ userId, refreshToken, accessToken, expiresIn: accessTokenExpires });
 }
 
-export async function refreshToken(req: Request, res: Response) {
-  const { refresh_token }: { refresh_token: string; user_id: string } = req.body;
+export async function reIssueToken(req: Request, res: Response) {
+  const { refreshToken, userId }: { refreshToken: string; userId: string } = req.body;
 
-  jwt.verify(refresh_token, 'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z', async (error, decoded) => {
-    if (error) {
-      return res.status(401).json(error);
-    }
-    const userId = decoded!.id;
-    const isExistToken = await userRepository.checkRefreshToken(userId);
-    if (isExistToken) {
-      const { refresh_token, access_token } = createTokens(userId);
-      res
-        .status(201)
-        .json({ user_id: userId, refresh_token, access_token, expires_in: accessTokenExpires });
-    } else {
-      return res.status(401).json(error);
-    }
-  });
+  const isExistToken = await userRepository.checkRefreshToken(userId, refreshToken);
+  if (isExistToken) {
+    const { refreshToken, accessToken } = createTokens(userId);
+    res.status(201).json({ userId, refreshToken, accessToken, expiresIn: accessTokenExpires });
+  } else {
+    return res.status(401).json({ message: 'refresh token is not valid' });
+  }
 }
 
 export async function me(req: Request, res: Response) {
@@ -114,11 +104,12 @@ export async function checkEmail(req: Request, res: Response) {
 }
 
 function createTokens(userId: string) {
-  const refresh_token = jwt.sign({ userId }, refreshTokenSecretKey, {
+  const refreshToken = jwt.sign({ userId }, refreshTokenSecretKey, {
     expiresIn: refreshTokenExpires,
   });
-  const access_token = jwt.sign({ userId }, accessTokenSecretKey, {
+  const accessToken = jwt.sign({ userId }, accessTokenSecretKey, {
     expiresIn: accessTokenExpires,
   });
-  return { refresh_token, access_token };
+  userRepository.storeRefreshToken(userId, refreshToken);
+  return { refreshToken, accessToken };
 }

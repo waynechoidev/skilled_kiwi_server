@@ -67,8 +67,11 @@ export async function createUser(user: User) {
     .then((result: any[]) => result[0].insertId);
 }
 
-export async function checkRefreshToken(token: String) {
-  if (tokenDb.token) {
+export async function storeRefreshToken(userId: string, token: string) {
+  tokenDb[userId] = token;
+}
+export async function checkRefreshToken(userId: string, token: String) {
+  if (tokenDb[userId] === token) {
     return true;
   } else {
     return false;

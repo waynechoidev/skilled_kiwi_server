@@ -32,9 +32,18 @@ const validateSignup = [
   validate,
 ];
 
+const validateRefreshToken = [
+  ...validateCredential,
+  body('userId').notEmpty().withMessage('userId is missing'),
+  body('refreshToken').notEmpty().withMessage('refreshToken is missing'),
+  validate,
+];
+
 router.post('/sign_up', validateSignup, authController.signUp);
 
 router.post('/sign_in', validateCredential, authController.signIn);
+
+router.post('/reissue_token', validateRefreshToken, authController.reIssueToken);
 
 router.get('/me', isAuth, authController.me);
 
