@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import * as userRepository from '../../auth/data';
 
 const AUTH_ERROR = { message: 'Authentication Error' };
@@ -18,7 +18,7 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
       return res.status(401).json(error);
     }
 
-    const user = await userRepository.findById(decoded!.id);
+    const user = await userRepository.findById(decoded!.userId);
     if (!user) {
       return res.status(401).json({ message: 'Cannot find user.' });
     }

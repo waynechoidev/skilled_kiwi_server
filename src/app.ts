@@ -1,3 +1,4 @@
+import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import { NextFunction, Request, Response } from 'express';
@@ -11,9 +12,7 @@ const port = 8080;
 //test
 app.use(express.json());
 app.use(cors());
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
-});
+app.use(bodyParser.json());
 
 app.use('/jobs', jobsRouter);
 app.use('/auth', authRouter);
@@ -28,7 +27,7 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 db.getConnection()
-  .then((c) => console.log(c))
+  .then((c) => console.log('db loaded'))
   .catch((e) => console.error(e));
 
 app.listen(port, () => {

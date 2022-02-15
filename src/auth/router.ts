@@ -33,7 +33,6 @@ const validateSignup = [
 ];
 
 const validateRefreshToken = [
-  ...validateCredential,
   body('userId').notEmpty().withMessage('userId is missing'),
   body('refreshToken').notEmpty().withMessage('refreshToken is missing'),
   validate,
