@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as jobRepository from './data';
+import { Job } from './data';
 
 export async function getJobs(req: Request, res: Response) {
   const username: string = req.query.username as string;
@@ -18,9 +19,11 @@ export async function getJob(req: Request, res: Response) {
 }
 
 export async function createJob(req: Request, res: Response) {
-  const text = req.body.text;
+  const { title, district, suburb, category, detail, images }: Job = req.body;
+  console.log(images);
+  const value = { title, district, suburb, category, detail, images };
   const userId: string = res.locals.userId;
-  const job: string = await jobRepository.create(text, userId);
+  const job: string = await jobRepository.create(value, userId);
   res.status(201).json(job);
 }
 

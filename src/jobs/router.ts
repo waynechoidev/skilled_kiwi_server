@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { isAuth } from './../common/middleware/auth';
 import * as jobsController from './controller';
 
 const router = express.Router();
@@ -11,7 +12,7 @@ router.get('/', jobsController.getJobs);
 router.get('/:id', jobsController.getJobs);
 
 // POST /jobs
-router.post('/', jobsController.createJob);
+router.post('/', isAuth, jobsController.createJob);
 
 // PUT /jobs/:id
 router.put('/:id', jobsController.updateJob);
