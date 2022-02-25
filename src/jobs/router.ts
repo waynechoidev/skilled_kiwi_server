@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', jobsController.getJobs);
 
 // GET /jobs/:id
-router.get('/:id', jobsController.getJobs);
+router.get('/:id', jobsController.getJob);
 
 // POST /jobs
 router.post('/', isAuth, jobsController.createJob);

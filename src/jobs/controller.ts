@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
+import { getJobsQuery } from './../data/get_requests';
 import * as jobRepository from './data';
 import { Job } from './data';
 
 export async function getJobs(req: Request, res: Response) {
-  const username: string = req.query.username as string;
-  const data = await (username ? jobRepository.getAllByUsername(username) : jobRepository.getAll());
+  console.log(req.query);
+  const { q, district, suburb, category }: getJobsQuery = req.query as getJobsQuery;
+  const data = await jobRepository.get(q, district, suburb, category);
   res.status(200).json(data);
 }
 
@@ -19,9 +21,8 @@ export async function getJob(req: Request, res: Response) {
 }
 
 export async function createJob(req: Request, res: Response) {
-  const { title, district, suburb, category, detail, images }: Job = req.body;
-  console.log(images);
-  const value = { title, district, suburb, category, detail, images };
+  const { title, district, suburb, category, detail, images, pay }: Job = req.body;
+  const value = { title, district, suburb, category, detail, images, pay };
   const userId: string = res.locals.userId;
   const job: string = await jobRepository.create(value, userId);
   res.status(201).json(job);

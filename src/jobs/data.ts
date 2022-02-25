@@ -8,22 +8,36 @@ export interface Job {
   category: JobCategory;
   detail: string;
   images: string[];
+  pay: number;
 }
 
 const SELECT_JOIN =
-  'SELECT jo.id, jo.title, jo.district, jo.suburb, jo.category, jo.detail, jo.images, jo.createdAt, jo.userId, us.username, us.email,us.first_name, us.last_name, us.gender, us.birthday, us.phone_number_prefix, us.phone_number, us.district, us.suburb FROM jobs as jo JOIN users as us ON jo.userId=us.id';
+  'SELECT jo.id, jo.title, jo.district, jo.suburb, jo.category, jo.detail, jo.images, jo.createdAt, jo.userId, us.username, us.email, us.phone_number_prefix, us.phone_number FROM jobs as jo JOIN users as us ON jo.userId=us.id';
 const ORDER_DESC = 'ORDER BY jo.createdAt DESC';
 
-export async function getAll() {
-  return db
-    .execute(`${SELECT_JOIN} ${ORDER_DESC}`) //
-    .then((result: any[]) => result[0]);
-}
+export async function get(q?: string, district?: string, suburb?: string, category?: string) {
+  let query = '';
 
-export async function getAllByUsername(username: string) {
+  if (q) {
+    query += ` AND jo.title LIKE '%${q}%'`;
+  }
+  if (district) {
+    query += ` AND jo.district='${district}'`;
+  }
+  if (suburb) {
+    query += ` AND jo.suburb='${suburb}'`;
+  }
+  if (category) {
+    query += ` AND jo.category='${category}'`;
+  }
+
+  query = query.replace(' AND', 'WHERE');
+  console.log(query);
   return db
-    .execute(`${SELECT_JOIN} WHERE username=? ${ORDER_DESC}`, [username]) //
-    .then((result) => result[0]);
+    .execute(
+      `SELECT jo.id, jo.title, jo.district, jo.suburb, jo.category, jo.detail, jo.images, jo.createdAt, jo.userId, jo.pay, us.username FROM jobs as jo JOIN users as us ON jo.userId=us.id ${query} ${ORDER_DESC}`
+    ) //
+    .then((result: any[]) => result[0]);
 }
 
 export async function getById(id: string) {
@@ -31,11 +45,11 @@ export async function getById(id: string) {
 }
 
 export async function create(value: Job, userId: string) {
-  const { title, district, suburb, category, detail, images } = value;
+  const { title, district, suburb, category, detail, images, pay } = value;
   return db
     .execute(
-      'INSERT INTO jobs (title, district, suburb, category, detail, images, createdAt, userId) VALUES(?,?,?,?,?,?,?,?)',
-      [title, district, suburb, category, detail, images, new Date(), userId]
+      'INSERT INTO jobs (title, district, suburb, category, detail, images, pay, createdAt, userId) VALUES(?,?,?,?,?,?,?,?,?)',
+      [title, district, suburb, category, detail, images, pay, new Date(), userId]
     )
     .then((result: any[]) => getById(result[0].insertId));
 }

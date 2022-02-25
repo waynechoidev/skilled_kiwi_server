@@ -49,7 +49,9 @@ export async function createUser(user: User) {
   } = user;
   return db
     .execute(
-      'INSERT INTO users(username, password, email, first_name, last_name, gender, birthday, phone_number_prefix, phone_number, district, suburb) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+      `INSERT INTO users(username, password, email, first_name, last_name,
+        gender, birthday, phone_number_prefix, phone_number, district, suburb)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
       [
         username,
         password,
