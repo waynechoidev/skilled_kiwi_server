@@ -4,7 +4,6 @@ import * as jobRepository from './data';
 import { Job } from './data';
 
 export async function getJobs(req: Request, res: Response) {
-  console.log(req.query);
   const { q, district, suburb, category }: getJobsQuery = req.query as getJobsQuery;
   const data = await jobRepository.get(q, district, suburb, category);
   res.status(200).json(data);
@@ -16,7 +15,7 @@ export async function getJob(req: Request, res: Response) {
   if (job) {
     res.status(200).json(job);
   } else {
-    res.status(404).json({ message: `Job id(${id}) not found` });
+    res.sendStatus(404);
   }
 }
 

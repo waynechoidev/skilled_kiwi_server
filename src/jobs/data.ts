@@ -12,7 +12,7 @@ export interface Job {
 }
 
 const SELECT_JOIN =
-  'SELECT jo.id, jo.title, jo.district, jo.suburb, jo.category, jo.detail, jo.images, jo.createdAt, jo.userId, us.username, us.email, us.phone_number_prefix, us.phone_number FROM jobs as jo JOIN users as us ON jo.userId=us.id';
+  'SELECT jo.id, jo.title, jo.district, jo.suburb, jo.category, jo.detail, jo.images, jo.createdAt, jo.userId, jo.pay, us.username FROM jobs as jo JOIN users as us ON jo.userId=us.id';
 const ORDER_DESC = 'ORDER BY jo.createdAt DESC';
 
 export async function get(q?: string, district?: string, suburb?: string, category?: string) {
@@ -32,11 +32,8 @@ export async function get(q?: string, district?: string, suburb?: string, catego
   }
 
   query = query.replace(' AND', 'WHERE');
-  console.log(query);
   return db
-    .execute(
-      `SELECT jo.id, jo.title, jo.district, jo.suburb, jo.category, jo.detail, jo.images, jo.createdAt, jo.userId, jo.pay, us.username FROM jobs as jo JOIN users as us ON jo.userId=us.id ${query} ${ORDER_DESC}`
-    ) //
+    .execute(`${SELECT_JOIN} ${query} ${ORDER_DESC}`) //
     .then((result: any[]) => result[0]);
 }
 

@@ -10,6 +10,8 @@ const accessTokenSecretKey = 'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z';
 const accessTokenExpires = 7200;
 const bcryptSaltRounds = 12;
 
+const date = new Date();
+
 export async function signUp(req: Request, res: Response) {
   const {
     username,
@@ -49,7 +51,7 @@ export async function signUp(req: Request, res: Response) {
 export async function signIn(req: Request, res: Response) {
   const { username, password } = req.body;
   const user = await userRepository.findByUsername(username);
-  const userId = user.id;
+  const userId: string = user.id.toString();
   if (!user) {
     return res.status(401).json({ message: 'Invalid Username or Password' });
   }
@@ -58,7 +60,12 @@ export async function signIn(req: Request, res: Response) {
     return res.status(401).json({ message: 'Invalid Username or Password' });
   }
   const { refreshToken, accessToken } = createTokens(userId);
-  res.status(201).json({ userId, refreshToken, accessToken, expiresIn: accessTokenExpires });
+  res.status(201).json({
+    userId,
+    refreshToken,
+    accessToken,
+    expiredTime: (date.getTime() + accessTokenExpires * 1000).toString(),
+  });
 }
 
 export async function reIssueToken(req: Request, res: Response) {
@@ -67,7 +74,12 @@ export async function reIssueToken(req: Request, res: Response) {
   const isExistToken = await userRepository.checkRefreshToken(userId, refreshToken);
   if (isExistToken) {
     const { refreshToken, accessToken } = createTokens(userId);
-    res.status(201).json({ userId, refreshToken, accessToken, expiresIn: accessTokenExpires });
+    res.status(201).json({
+      userId,
+      refreshToken,
+      accessToken,
+      expiredTime: (date.getTime() + accessTokenExpires * 1000).toString(),
+    });
   } else {
     return res.status(401).json({ message: 'refresh token is not valid' });
   }
