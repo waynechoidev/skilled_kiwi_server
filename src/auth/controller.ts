@@ -85,15 +85,15 @@ export async function reIssueToken(req: Request, res: Response) {
   }
 }
 
-export async function me(req: Request, res: Response) {
-  const { userId } = res.locals;
+// export async function me(req: Request, res: Response) {
+//   const { userId } = res.locals;
 
-  const user = await userRepository.findById(userId);
-  if (!user) {
-    return res.status(404).json({ message: 'User not found' });
-  }
-  res.status(200).json({ username: user.username });
-}
+//   const user = await userRepository.findById(userId);
+//   if (!user) {
+//     return res.status(404).json({ message: 'User not found' });
+//   }
+//   res.status(200).json({ username: user.username });
+// }
 
 export async function checkUsername(req: Request, res: Response) {
   const username: string = req.params.username;

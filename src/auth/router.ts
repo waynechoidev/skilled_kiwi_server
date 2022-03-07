@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { body } from 'express-validator';
-import { isAuth } from '../common/middleware/auth';
 import { validate } from '../common/middleware/validator';
 import * as authController from './controller';
 
@@ -44,7 +43,7 @@ router.post('/sign_in', validateCredential, authController.signIn);
 
 router.post('/reissue_token', validateRefreshToken, authController.reIssueToken);
 
-router.get('/me', isAuth, authController.me);
+// router.get('/me', isAuth, authController.me);
 
 router.get('/check_username/:username', authController.checkUsername);
 
