@@ -10,13 +10,6 @@ const cors = require('cors');
 const app = express();
 const port = 8080;
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  next();
-});
-
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
