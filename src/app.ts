@@ -1,5 +1,6 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
+import 'dotenv/config';
 import * as express from 'express';
 import { NextFunction, Request, Response } from 'express';
 import authRouter from './auth/router';
@@ -8,7 +9,7 @@ import jobsRouter from './jobs/router';
 
 const app = express();
 const port = 8080;
-
+console.log(process.env.DB_PASSWORD);
 //test
 app.use(express.json());
 app.use(cors());

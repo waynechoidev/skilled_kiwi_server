@@ -2,12 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var bodyParser = require("body-parser");
 var cors = require("cors");
+require("dotenv/config");
 var express = require("express");
 var router_1 = require("./auth/router");
 var mysql_1 = require("./common/db/mysql");
 var router_2 = require("./jobs/router");
 var app = express();
 var port = 8080;
+console.log(process.env.DB_PASSWORD);
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,6 +26,6 @@ mysql_1.db.getConnection()
     .then(function (c) { return console.log('db loaded'); })
     .catch(function (e) { return console.error(e); });
 app.listen(port, function () {
-    console.log("server is on with port " + port + "!");
+    console.log("server is on with port ".concat(port, "!"));
 });
 //# sourceMappingURL=app.js.map

@@ -111,7 +111,7 @@ function updateJob(req, res) {
                         res.status(200).json(job);
                     }
                     else {
-                        res.status(404).json({ message: "Job id(" + id + ") not found" });
+                        res.status(404).json({ message: "Job id(".concat(id, ") not found") });
                     }
                     return [2];
             }

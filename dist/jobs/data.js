@@ -46,20 +46,20 @@ function get(q, district, suburb, category) {
         return __generator(this, function (_a) {
             query = '';
             if (q) {
-                query += " AND jo.title LIKE '%" + q + "%'";
+                query += " AND jo.title LIKE '%".concat(q, "%'");
             }
             if (district) {
-                query += " AND jo.district='" + district + "'";
+                query += " AND jo.district='".concat(district, "'");
             }
             if (suburb) {
-                query += " AND jo.suburb='" + suburb + "'";
+                query += " AND jo.suburb='".concat(suburb, "'");
             }
             if (category) {
-                query += " AND jo.category='" + category + "'";
+                query += " AND jo.category='".concat(category, "'");
             }
             query = query.replace(' AND', 'WHERE');
             return [2, mysql_1.db
-                    .execute(SELECT_JOIN + " " + query + " " + ORDER_DESC)
+                    .execute("".concat(SELECT_JOIN, " ").concat(query, " ").concat(ORDER_DESC))
                     .then(function (result) { return result[0]; })];
         });
     });
@@ -68,7 +68,7 @@ exports.get = get;
 function getById(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            return [2, mysql_1.db.execute(SELECT_JOIN + " WHERE jo.id=?", [id]).then(function (result) { return result[0][0]; })];
+            return [2, mysql_1.db.execute("".concat(SELECT_JOIN, " WHERE jo.id=?"), [id]).then(function (result) { return result[0][0]; })];
         });
     });
 }

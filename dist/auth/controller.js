@@ -57,7 +57,7 @@ function signUp(req, res) {
                 case 1:
                     found = _b.sent();
                     if (found) {
-                        return [2, res.status(409).json({ message: username + " already exists" })];
+                        return [2, res.status(409).json({ message: "".concat(username, " already exists") })];
                     }
                     return [4, bcrypt.hash(password, bcryptSaltRounds)];
                 case 2:
@@ -77,7 +77,7 @@ function signUp(req, res) {
                         })];
                 case 3:
                     _b.sent();
-                    return [2, res.status(201).json({ message: "Success to make user for " + username })];
+                    return [2, res.status(201).json({ message: "Success to make user for ".concat(username) })];
             }
         });
     });
