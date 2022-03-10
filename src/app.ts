@@ -30,6 +30,4 @@ db.getConnection()
   .then((c) => console.log('db loaded'))
   .catch((e) => console.error(e));
 
-app.listen(port, () => {
-  console.log(`server is on with port ${port}!`);
-});
+app.listen(port);
