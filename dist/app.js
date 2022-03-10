@@ -1,18 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var bodyParser = require("body-parser");
-var cors = require("cors");
 require("dotenv/config");
 var express = require("express");
 var router_1 = require("./auth/router");
 var mysql_1 = require("./common/db/mysql");
 var router_2 = require("./jobs/router");
+var cors = require('cors');
 var app = express();
 var port = 8080;
-console.log(process.env.DB_PASSWORD);
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    next();
+});
 app.use(express.json());
-app.use(cors());
 app.use(bodyParser.json());
+app.use(cors());
 app.use('/jobs', router_2.default);
 app.use('/auth', router_1.default);
 app.use(function (req, res, next) {
