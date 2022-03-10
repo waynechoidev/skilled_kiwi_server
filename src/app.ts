@@ -8,7 +8,7 @@ import jobsRouter from './jobs/router';
 const cors = require('cors');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(bodyParser.json());
