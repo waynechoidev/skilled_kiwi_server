@@ -14,6 +14,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.send('connect');
+});
 app.use('/jobs', jobsRouter);
 app.use('/auth', authRouter);
 
