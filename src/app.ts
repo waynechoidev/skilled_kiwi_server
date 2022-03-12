@@ -1,14 +1,14 @@
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import 'dotenv/config';
 import * as express from 'express';
 import { NextFunction, Request, Response } from 'express';
 import authRouter from './auth/router';
 import { db } from './common/db/mysql';
 import jobsRouter from './jobs/router';
-const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(bodyParser.json());
