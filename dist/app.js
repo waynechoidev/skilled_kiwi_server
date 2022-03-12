@@ -5,6 +5,7 @@ var cors = require("cors");
 require("dotenv/config");
 var express = require("express");
 var router_1 = require("./auth/router");
+var mysql_1 = require("./common/db/mysql");
 var router_2 = require("./jobs/router");
 var app = express();
 app.use(express.json());
@@ -22,5 +23,8 @@ app.use(function (error, req, res, next) {
     console.error(error);
     res.sendStatus(500);
 });
+mysql_1.db.getConnection()
+    .then(function (c) { return console.log('db loaded'); })
+    .catch(function (e) { return console.error(e); });
 app.listen(process.env.PORT || 8080);
 //# sourceMappingURL=app.js.map
