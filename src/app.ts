@@ -8,7 +8,6 @@ import { db } from './common/db/mysql';
 import jobsRouter from './jobs/router';
 
 const app = express();
-const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -17,6 +16,7 @@ app.use(cors());
 app.get('/', (req, res) => {
   res.send('connect');
 });
+
 app.use('/jobs', jobsRouter);
 app.use('/auth', authRouter);
 
@@ -33,4 +33,4 @@ db.getConnection()
   .then((c) => console.log('db loaded'))
   .catch((e) => console.error(e));
 
-app.listen(port);
+app.listen(process.env.PORT || 8080);
