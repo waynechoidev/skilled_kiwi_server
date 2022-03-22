@@ -2,9 +2,11 @@
 
 It is backend codebase for "Skilled Kiwi".
 
-While I am focusing on frontend more, I just implement rest API endpoint just every time I need on the client side. So I cannot guarantee quality of the code.
+While I am focusing on frontend more, I just implemented rest API endpoint just every time I need in a bottom-up approach.
 
-Of course, you can, but I do not recommend you to read these codes. I might build whole new application later on with other framework.
+So I cannot guarantee quality of the code. Of course, you can, but I do not recommend you to read these codes.
+
+I might build whole new application later on with other framework.
 
 I would like to provide API documentation on this page, but it might be changed again.
 
