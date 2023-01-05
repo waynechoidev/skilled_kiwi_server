@@ -1,4 +1,5 @@
-# Skilled Kiwi
+# ~~Skilled Kiwi~~
+It is deprecated.
 
 It is backend codebase for "Skilled Kiwi".
 
